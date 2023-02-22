@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Socket.IO chat</title>
+  <style>
+    body {
+      margin: 0;
+      padding-bottom: 3rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    #form {
+      background: rgba(0, 0, 0, 0.15);
+      padding: 0.25rem;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      box-sizing: border-box;
+      backdrop-filter: blur(10px);
+    }
+
+    #form div {
+      display: flex;
+      width: 100vw;
+      height: 3rem;
+    }
+
+    #input {
+      border: none;
+      padding: 0 1rem;
+      flex-grow: 1;
+      border-radius: 2rem;
+      margin: 0.25rem;
+    }
+
+    #input:focus {
+      outline: none;
+    }
+
+    #form button {
+      background: #333;
+      border: none;
+      padding: 0 1rem;
+      margin: 0.25rem;
+      border-radius: 3px;
+      outline: none;
+      color: #fff;
+    }
+
+    #messages {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    #messages>li {
+      padding: 0.5rem 1rem;
+    }
+
+    #messages>li:nth-child(odd) {
+      background: #efefef;
+    }
+  </style>
+</head>
+
+<body>
+  <form id="nickname-form">
+    <label for="nick">Nickname: </label>
+    <input id="nick" placeholder="type your nickname" type="text" />
+    <br>
+    <button type="submit">Join the chat</button>
+  </form>
+  <ul style="display: none;" id="messages"></ul>
+
+
+  <form style="display: none;" id="form" action="">
+    <p id="is-typing"></p>
+    <div>
+      <input id="input" autocomplete="off" /><button>Send</button>
+    </div>
+  </form>
+
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <script>
+    var socket = io();
+    var nickname
+    var messages = document.getElementById('messages');
+    const nicknameForm = document.getElementById('nickname-form')
+    const nicknameInput = document.getElementById('nick')
+    const form = document.getElementById('form')
+    const input = document.getElementById('input')
+    const isTypingParagraph = document.getElementById('is-typing')
+
+    input.onkeyup = (() => {
+      console.log('up');
+      socket.emit('isTyping', nickname)
+    })
+
+    nicknameForm.addEventListener('submit', (e) => {
+      e.preventDefault()
+      if (nicknameInput.value) {
+        nickname = nicknameInput.value
+        nicknameForm.style.display = "none"
+        form.style.display = "block"
+        messages.style.display = "block"
+      }
+    })
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault()
+      if (input.value) {
+        socket.emit('message', input.value)
+        const item = document.createElement('li')
+        item.textContent = input.value
+        messages.appendChild(item)
+        input.value = ''
+
+      }
+    })
+
+    socket.on('message', (msg) => {
+      const item = document.createElement('li')
+      item.textContent = msg
+      messages.appendChild(item)
+      window.scrollTo(0, document.body.scrollHeight)
+    })
+
+    socket.on('isTyping', (msg) => {
+      isTypingParagraph.textContent = msg
+
+      setTimeout(() => {
+        isTypingParagraph.textContent = ''
+      }, 3000)
+    })
+  </script>
+</body>
+
+</html>
