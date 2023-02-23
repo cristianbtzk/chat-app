@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Socket.IO chat</title>
+  <link rel="stylesheet" href="./style.css" />
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <div class="image-text">
+        <div class="image icon">
+          <box-icon color="#fff" name='conversation'></box-icon>
+        </div>
+        <div class="text">
+          <p>Rooms</p>
+        </div>
+      </div>
+
+      <div class="menu-bar">
+        <ul>
+          <li>
+            <box-icon class="icon" name='message-rounded-dots'></box-icon>
+            <p>Sala1</p>
+          </li>
+          <li>
+            <box-icon class="icon" name='message-rounded-dots'></box-icon>
+            <p>Sala2</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <div class="main">
+      <div class="user-form">
+        <form id="nickname-form">
+          <label for="nick">Nickname: </label>
+          <input id="nick" placeholder="type your nickname" type="text" />
+          <button type="submit">Join the chat</button>
+        </form>
+        <ul style="display: none;" id="messages"></ul>
+      </div>
+
+
+      <form style="display: none;" id="form" action="">
+        <p id="is-typing"></p>
+        <div>
+          <input id="input" autocomplete="off" /><button>Send</button>
+        </div>
+      </form>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="./script.js"></script>
+  </div>
+</body>
+
+</html>
