@@ -47,6 +47,13 @@ body {
   color: var(--text);
 }
 
+button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text);
+}
+
 .container {
   width: 100%;
   height: 100%;
@@ -91,6 +98,16 @@ body {
   min-width: 36px;
 }
 
+.new-room {
+  margin-top: 16px;
+  width: 100%;
+}
+
+.new-room button {
+  display: block;
+  width: 100%;
+}
+
 .main {
   padding: 16px;
   flex: 1;
@@ -123,6 +140,7 @@ body {
   border-radius: 4px;
   background: var(--toggle);
 }
+
 
 
 
