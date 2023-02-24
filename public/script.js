@@ -8,7 +8,6 @@ var socket = io();
     const isTypingParagraph = document.getElementById('is-typing')
 
     input.onkeyup = (() => {
-      console.log('up');
       socket.emit('isTyping', nickname)
     })
 
