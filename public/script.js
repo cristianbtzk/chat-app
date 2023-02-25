@@ -1,49 +1,94 @@
 var socket = io();
-    var nickname
-    var messages = document.getElementById('messages');
-    const nicknameForm = document.getElementById('nickname-form')
-    const nicknameInput = document.getElementById('nick')
-    const form = document.getElementById('form')
-    const input = document.getElementById('input')
-    const isTypingParagraph = document.getElementById('is-typing')
+var moment = moment()
+var nickname
+var messages = document.getElementById('messages');
+const nicknameForm = document.getElementById('nickname-form')
+const nicknameInput = document.getElementById('nick')
+const form = document.getElementById('form')
+const input = document.getElementById('input')
+const isTypingParagraph = document.getElementById('is-typing')
 
-    input.onkeyup = (() => {
-      socket.emit('isTyping', nickname)
-    })
+moment.locale('pt-br')
 
-    nicknameForm.addEventListener('submit', (e) => {
-      e.preventDefault()
-      if (nicknameInput.value) {
-        nickname = nicknameInput.value
-        nicknameForm.style.display = "none"
-        form.style.display = "block"
-        messages.style.display = "block"
-      }
-    })
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault()
-      if (input.value) {
-        socket.emit('message', input.value)
-        const item = document.createElement('li')
-        item.textContent = input.value
-        messages.appendChild(item)
-        input.value = ''
 
-      }
-    })
+input.onkeyup = (() => {
+  socket.emit('isTyping', nickname)
+})
 
-    socket.on('message', (msg) => {
-      const item = document.createElement('li')
-      item.textContent = msg
-      messages.appendChild(item)
-      window.scrollTo(0, document.body.scrollHeight)
-    })
+nicknameForm.addEventListener('submit', (e) => {
+  e.preventDefault()
+  if (nicknameInput.value) {
+    nickname = nicknameInput.value
+    nicknameForm.style.display = "none"
+    form.style.display = "block"
+    messages.style.display = "block"
+    socket.emit('joined', nicknameInput.value)
+  }
+})
 
-    socket.on('isTyping', (msg) => {
-      isTypingParagraph.textContent = msg
+form.addEventListener('submit', (e) => {
+  e.preventDefault()
+  if (input.value) {
 
-      setTimeout(() => {
-        isTypingParagraph.textContent = ''
-      }, 3000)
-    })
+    let msg = { msg: input.value, nickname, date: moment.calendar(new Date()) }
+
+    socket.emit('message', msg)
+
+    const item = document.createElement('div')
+    item.style.display = "flex"
+    item.style.justifyContent = "flex-end"
+
+    item.innerHTML = componentMessage2(msg)
+
+    messages.appendChild(item)
+    input.value = ''
+  }
+})
+
+socket.on('message', (msg) => {
+  let messageBox = document.createElement('div')
+  messageBox.classList.add('messageBox')
+
+  messageBox.innerHTML = componentMessage(msg)
+
+  messages.appendChild(messageBox)
+  window.scrollTo(0, document.body.scrollHeight)
+})
+
+socket.on('isTyping', (msg) => {
+  isTypingParagraph.textContent = msg
+
+  setTimeout(() => {
+    isTypingParagraph.textContent = ''
+  }, 3000)
+})
+
+socket.on('joined', (users) => {
+  users.forEach(element => {
+    let item = document.createElement('li')
+    item.textContent = element
+    document.getElementById('usersOn').appendChild(item)
+  });
+})
+
+
+function componentMessage(objMsg) {
+  return `
+  <div class="nicknameBox">
+    <span>${objMsg.nickname}</span>
+  </div>
+  <div class="arrow"></div>
+  <div class="messageFrom">
+    <span>${objMsg.msg}</span>
+    <span>${objMsg.date}</span>
+  </div>`
+}
+
+function componentMessage2(objMsg) {
+  return `
+  <div class="messageTo">
+    <span>${objMsg.msg}</span>
+    <span>${objMsg.date}</span>
+    </div>`
+}
