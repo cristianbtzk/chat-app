@@ -37,6 +37,9 @@ body.light {
   --transition-03: all 0.3s ease;
   --transition-04: all 0.4s ease;
   --transition-05: all 0.5s ease;
+  
+  --primary-color: rgb(235, 254, 203);
+  --secondary-color: rgb(203, 254, 250);
 }
 
 body {
@@ -113,9 +116,9 @@ button {
   flex: 1;
 }
 
-.user-form {
+/* .user-form {
   width: 300px;
-}
+} */
 
 .user-form form{
   display: flex;
@@ -195,4 +198,85 @@ button {
 
 #messages>li:nth-child(odd) {
   background: #efefef;
+}
+
+.messageFrom {
+  margin-bottom: 0;
+  margin-bottom: 0.3rem;
+  background-color: var(--primary-color);
+  border-radius: 0.5rem 0.5rem 0.5rem 0;
+  min-width: auto;
+  max-width: 50vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.messageFrom>span {
+  padding: 0.3rem;
+}
+
+
+.messageFrom>span:first-child {
+  font-weight: 400;
+  font-size: 0.9rem;
+}
+
+.messageFrom>span:last-child {
+  text-align: end;
+  font-size: 0.6rem;
+}
+
+.messageTo {
+  margin: 0.7rem;
+  margin-bottom: 0.3rem;
+  background-color: var(--secondary-color);
+  border-radius: 0.5rem;
+  min-width: auto;
+  max-width: 50vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.messageTo>span {
+  padding: 0.5rem;
+}
+
+.messageTo>span:first-child {
+  font-weight: 400;
+  font-size: 0.9rem;
+}
+
+.messageTo>span:last-child {
+  text-align: end;
+  font-size: 0.6rem;
+}
+
+.messageBox {
+  margin: 0.7rem;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  border-top: 0.5rem solid transparent;
+  border-bottom: 0.125rem solid transparent;
+  border-right: 0.5rem solid var(--primary-color);
+  margin-bottom: 0.3rem;
+}
+
+.nicknameBox {
+  display: flex;
+  align-items: flex-end;
+  margin-right: 0.2rem;
+}
+
+.nicknameBox>span {
+  font-size: 0.8rem;
+}
+
+.listUser {
+  margin-left: 0.5rem;
 }

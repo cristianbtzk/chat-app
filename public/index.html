@@ -46,6 +46,21 @@
           </div>
         </button>
       </div>
+
+      <div class="menu-bar">
+        <div class="image-text">
+          <div class="image icon">
+            <box-icon color="#fff" name='group'></box-icon>
+          </div>
+          <div class="text">
+            <p>Users</p>
+          </div>
+        </div>
+        <div class="usersOn">
+          <ul class="listUser" id="usersOn"></ul>
+        </div>
+      </div>
+
     </div>
 
 
@@ -56,7 +71,7 @@
           <input id="nick" placeholder="type your nickname" type="text" />
           <button type="submit">Join the chat</button>
         </form>
-        <ul style="display: none;" id="messages"></ul>
+        <div style="display: none;" id="messages"></div>
       </div>
 
 
@@ -69,6 +84,7 @@
     </div>
 
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
     <script src="./script.js"></script>
   </div>
 </body>

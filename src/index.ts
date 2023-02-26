@@ -9,15 +9,19 @@ const __dirname = dirname(__filename);
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server)
+
+let users: string[] = []
+
 app.use(express.static(__dirname + '/public'))
-
-
-
 app.use(express.static(__dirname + '/../public'))
 
 io.on('connection', (socket) => {
   console.log('client connected')
-  io.emit('message', 'Someone joined the room')
+
+  socket.on('joined', (nickname) => {
+    users.push(nickname)
+    io.emit('joined', users)
+  })
 
   socket.on('message', (msg) => {
     io.except(socket.id).emit('message', msg)
