@@ -65,10 +65,13 @@ socket.on('isTyping', (msg) => {
 })
 
 socket.on('joined', (users) => {
+  const usersOn = document.getElementById('usersOn')
+  usersOn.innerHTML = ''
   users.forEach(element => {
     let item = document.createElement('li')
     item.textContent = element
-    document.getElementById('usersOn').appendChild(item)
+    
+    usersOn.appendChild(item)
   });
 })
 
